@@ -78,15 +78,15 @@ class Dog {
     this.name = name;
     this.age = 0;
   }
-}
-get name() {
-  return this._name;
-}
-get age() {
-  return this._age;
-}
-incrementAge() {
-  this._age++;
+  get name() {
+    return this._name;
+  }
+  get age() {
+    return this._age;
+  }
+  incrementAge() {
+    this._age++;
+  }
 }
 
 /*
@@ -95,4 +95,42 @@ incrementAge() {
 3. Under the getters, we add a method named .incrementAge(). 
 4. When you call .incrementAge() on a Dog instance, it adds 1 to the _age property. 
 5. Between each of our methods, we did not include commas.
+*/
+
+/*
+Method Calls
+
+Methods are used to access and manipulate data from Dog instances.
+*/
+
+class Dog {
+  constructor(name) {
+    this.name = name;
+    this.age = 0;
+  }
+  get name() {
+    return this._name;
+  }
+  get age() {
+    return this._age;
+  }
+  incrementAge() {
+    this._age++;
+  }
+}
+
+let peppa = new Dog('Peppa'); 
+peppa.incrementAge(); // Add 1 to peppa instance's age     <----- This is where the method is called into our program.
+
+let luke = new Dog('Luke'); 
+
+console.log(peppa.age); // Logs 1 to the console 
+
+console.log(luke.age); // Logs 0 to the console
+
+/*
+1. In the example above, we created two new Dog instances, peppa and luke. 
+2. We called incrementAge() on peppa, and it increases peppa's instance.
+3. We did not not called incrementAge() on luke.
+4. Accessing peppa.age returns 1 and accessing luke.behavior returns 0.
 */
