@@ -132,5 +132,142 @@ console.log(luke.age); // Logs 0 to the console
 1. In the example above, we created two new Dog instances, peppa and luke. 
 2. We called incrementAge() on peppa, and it increases peppa's instance.
 3. We did not not called incrementAge() on luke.
-4. Accessing peppa.age returns 1 and accessing luke.behavior returns 0.
+4. Accessing peppa.age returns 1 and accessing luke.age returns 0.
 */
+
+/*
+Inheritance
+
+Imagine that now we also want to accept cats in our dog daycare.
+We would need to create a Cat class so we can quickly generate Cat instances. 
+We know that some properties in our Cat class (name, age) are similar to the properties in our Dog class, 
+Though, there will be some differences, because of course, cats are not dogs.
+*/
+
+class Cat { //Here we create an instance called Cat 
+  constructor(name, usesSandbox) {
+    this._name = name; //This propertie is shared with Dog class 
+    this._age = 0; //This propertie is also shared with Dog class
+    this._usesSandbox = usesSandbox; //The Cat class also contains _usesSandbox property, that holds a boolean value to indicate if the cat can use their sandbox.
+  }
+  get name() {
+    return this._name;
+  }
+  get age() {
+    return this._age;
+  }  
+  get usesSandbox() {
+    return this._usesSandbox;
+  }
+  incrementAge() { //This method is shared with Dog class
+    this._age++;
+  }
+}
+
+/*
+When multiple classes share properties or methods, they become candidates for inheritance.
+With inheritance, you can create a parent class (also known as a superclass) with properties and methods that multiple child classes (also known as subclasses) share. 
+The child classes inherit the properties and methods from their parent class.
+Let’s abstract the shared properties and methods from our Cat and Dog classes into a parent class called Animal.
+Take a look at the example below:
+*/
+
+class Animal {
+  constructor(name) {
+    this._name = name;
+    this._age = 0;
+  }
+  get name() {
+    return this._name;
+  }
+  get age() {
+    return this._age;
+  }   
+  incrementAge() {
+    this._age++;
+  }
+} 
+
+/*
+The Animal class contains the properties and methods that the Cat and Dog classes share (name, age, .incrementAge()).
+Now that we have these shared properties and methods in the parent Animal class, we can extend them to the subclass, Dog.
+*/
+
+class Cat extends Animal {
+  constructor(name, usesSandbox) {
+    super(name);
+    this._usesSandbox = usesSandbox;
+  }
+}
+
+/*
+1. The 'extends' keyword makes the methods of the Animal class available inside the Cat class.
+2. The constructor, called when you create a new Cat object, accepts two arguments, name and usesSandbox.
+3. The super keyword calls the constructor of the parent class. In this case, super(name) passes the name argument of the Cat class to the constructor of the Animal class.
+4. In a constructor(), you must always call the super method before you can use the this keyword — if you do not, JavaScript will throw a reference error.
+5. When the Animal constructor runs, it sets this._name = name; for new Cat instances.
+6. _usesSandbox is a new property that is unique to the Cat class, so we set it in the Cat constructor.
+*/
+
+const garfield = new Cat('Garfield', false); 
+console.log(garfield._name); // output: Garfield
+
+/*
+1. In the example above, we create a new instance of the Cat class, named garfield. 
+2. We pass it 'Garfield' and false for our name and usesSandbox arguments. 
+3. When we call console.log(garfield._name) our program prints, Garfield.
+*/
+
+garfield.incrementAge(); 
+console.log(garfield.age); 
+
+/*
+1. In the example above, our garfield instance calls incrementAge() method, accessed from the parent class.
+2. console.log(garfield.age); // Log value saved to age, in this case, 1.
+*/
+
+class Dog extends Animal {
+  constructor(name) {
+    super(name);
+  }
+}
+
+/*
+This Dog class has access to the same properties, getters, setters, and methods as the Dog class we made without inheritance
+...but with a quarter of the size.
+*/
+
+/*
+Static Methods
+
+Sometimes you will want a class to have methods that aren’t available in individual instances, but that you can call directly from the class.
+Let’s see how to use the 'static' keyword to create a static method called generateName method in our Animal class:
+*/
+
+class Animal {
+  constructor(name) {
+    this._name = name;
+    this._age = 0;
+  }
+
+  static generateName() {
+    const names = ['Angel', 'Spike', 'Buddy', 'Fresh', 'Hash'];
+    const randomNumber = Math.floor(Math.random()*5);
+    return names[randomNumber];
+  }
+} 
+
+/*
+In the example above, we create a static method called .generateName() that returns a random name when it’s called.
+Because of the 'static' keyword, we can only access .generateName() by appending it to the Animal class.
+We call the .generateName() method with the following syntax:
+*/
+
+console.log(Animal.generateName()); // returns a random name
+
+//You cannot access the .generateName() method from instances of the Animal class or instances of its subclasses (See below).
+
+const billy = new Animal('Billy'); 
+billy.generateName(); // TypeError
+
+//The example above will result in an error, because you cannot call static methods - like .generateName() - on an instance (billy).
