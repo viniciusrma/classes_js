@@ -7,7 +7,7 @@ We create the Lolla object below:
 */
 
 let lolla = {
-  _name: 'Halley',
+  _name: 'lolla',
   _age: 2,
 
   get name() {
